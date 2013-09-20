@@ -2,14 +2,12 @@
 
 /* Controllers */
 
-function ReceiverCtrl($scope,$routeParams,ytplayer,ytdataapi) {
+function YTCtrl($scope,ytplayer,ytdataapi) {
   $scope.$on('apiReady',function () {
-    ytdataapi.search("",{'topicId':$routeParams.topicId,'type':'video','maxResults':1,'order':'viewCount'}).success(function(apiresults) {
-      ytplayer.videoId=apiresults.items[0].id.videoId;
+      ytplayer.videoId='5meWI3iX1sE';
       ytplayer.loadPlayer();
-    });
-    $scope.$digest();
+      $scope.$digest();
   });
 }
 
-ReceiverCtrl.$inject = ['$scope','$routeParams','YtPlayerApi','YtDataApi'];
+YTCtrl.$inject = ['$scope','youtubePlayer','youtubeData'];

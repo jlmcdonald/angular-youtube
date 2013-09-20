@@ -31,11 +31,17 @@ angular.module('youtube.api',[]).run(function() {
                 videoId: this.videoId
             });
         };
+	//var playCommands = {"playVideo":this.playerObj.playVideo(),"pauseVideo":this.playerObj.pauseVideo(),"stopVideo":this.playerObj.stopVideo()};
+	//for (var cmd in playCommands) {
+	//	ytplayer[cmd] = function() {
+	//		playCommands[cmd];
+	//	}
+	//}
         return ytplayer;
     }])
     .factory('youtubeData', ['$http', function($http){
     	var _params = {
-        	key: {YOUR_API_KEY_HERE}
+        	key: "AIzaSyDEIWpqZHCrlzvspc9Gi7CGDdQSBwXE3N4"
     	};
     	var endpoints = ["activities","channels","guideCategories","playlistItems","playlists","search","subscriptions","videoCategories","videos"];
     	var api="https://www.googleapis.com/youtube/v3/";
