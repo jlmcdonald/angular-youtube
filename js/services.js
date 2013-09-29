@@ -2,46 +2,64 @@
 
 /* Services */
 
-angular.module('youtube.api',[]).run(function() {
+angular.module('youtube.api.services',[]).run(function() {
     var tag = document.createElement('script');
     tag.src = "//www.youtube.com/iframe_api";
     var firstScriptTag = document.getElementsByTagName('script')[0];
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
     })
     .factory('youtubePlayer', ['$window', '$rootScope', function ($window, $rootScope) {
-        var ytplayer = {"playerId":null,"playerObj":null,"videoId":null,"height":390,"width":640};
-
         $window.onYouTubeIframeAPIReady = function () {
             $rootScope.$broadcast('apiReady');
         };
-
-        ytplayer.setPlayerId = function(elemId) {
-            this.playerId=elemId;
-        };
-
-	ytplayer.setDimensions = function(width,height) {
-	    this.width=width;
-	    this.height=height;
+        var ytplayer = {
+		"playerId":null,
+		"playerObj":null,
+		"videoId":null,
+		"autoplay": false,
+		"controls": true,
+		"height":390,
+		"width":640,
+		setPlayerId:function(elemId) {
+            		this.playerId=elemId;
+        	},
+		setDimensions:function(width,height) {
+	    		this.width=width;
+	    		this.height=height;
+		},
+		setPlayerVars: function(autoplay,controls) {
+			this.autoplay=autoplay;
+			this.controls=controls;
+		},
+		setVideoId: function(videoId) {
+			this.videoId=videoId;
+		},
+		loadPlayer:function () {
+           		this.playerObj = new YT.Player(this.playerId, {
+                		height: this.height,
+                		width: this.width,
+				playerVars: {
+					'autoplay': this.autoplay,
+					'controls': this.controls
+				},
+                		videoId: this.videoId
+            		});
+        	},
+		playVideo:function() {
+			this.playerObj.playVideo();
+		},
+		pauseVideo:function() {
+			this.playerObj.pauseVideo();
+		},
+		stopVideo:function() {
+			this.playerObj.stopVideo();
+		}
 	};
-
-        ytplayer.loadPlayer = function () {
-           this.playerObj = new YT.Player(this.playerId, {
-                height: this.height,
-                width: this.width,
-                videoId: this.videoId
-            });
-        };
-	//var playCommands = {"playVideo":this.playerObj.playVideo(),"pauseVideo":this.playerObj.pauseVideo(),"stopVideo":this.playerObj.stopVideo()};
-	//for (var cmd in playCommands) {
-	//	ytplayer[cmd] = function() {
-	//		playCommands[cmd];
-	//	}
-	//}
         return ytplayer;
     }])
     .factory('youtubeData', ['$http', function($http){
     	var _params = {
-        	key: "AIzaSyDEIWpqZHCrlzvspc9Gi7CGDdQSBwXE3N4"
+        	key: 'noder'
     	};
     	var endpoints = ["activities","channels","guideCategories","playlistItems","playlists","search","subscriptions","videoCategories","videos"];
     	var api="https://www.googleapis.com/youtube/v3/";

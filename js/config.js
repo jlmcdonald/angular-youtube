@@ -1,7 +1,7 @@
 'use strict';
 
 if(APIDEMO_CONFIG === undefined) {
-  var APIDEMO_CONFIG = angular.module('youtube.api', []).
+  var APIDEMO_CONFIG = angular.module('apiDemo.config', []).
   factory('appConfig', ['youtubeKey','freebaseKey',function(youtubeKey,freebaseKey) {
     return {
       youtubeKey: youtubeKey,
@@ -11,5 +11,5 @@ if(APIDEMO_CONFIG === undefined) {
 }
 
 APIDEMO_CONFIG.
-  value('youtubeKey', 'AIzaSyDEIWpqZHCrlzvspc9Gi7CGDdQSBwXE3N4').
-  value('freebaseKey', 'AIzaSyCooRtA_OPG1BUT9yDAqJ2mP3MSk8B-kSg');
+  value('youtubeKey', 'YOUR_YOUTUBE_KEY').
+  value('freebaseKey', 'YOUR_FREEBASE_KEY');

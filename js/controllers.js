@@ -3,10 +3,9 @@
 /* Controllers */
 
 function YTCtrl($scope,ytplayer,ytdataapi) {
+  $scope.player=ytplayer;
   $scope.$on('apiReady',function () {
-      ytplayer.videoId='5meWI3iX1sE';
-      ytplayer.loadPlayer();
-      $scope.$digest();
+      $scope.player.loadPlayer();
   });
 }
 

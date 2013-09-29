@@ -1,9 +1,11 @@
-angular.module('youtube.api',[])
+angular.module('youtube.api.directives',[])
 .directive('youtube', ['youtubePlayer', function (YtPlayerApi) {
         return {
-            restrict:'A',
-            link:function (scope, element) {
-                YtPlayerApi.setPlayerId(element[0].id);
+            restrict:'E',
+            link:function (scope, element,attrs) {
+                YtPlayerApi.setPlayerId(attrs.id);
+                YtPlayerApi.setPlayerVars(attrs.autoplay,attrs.controls);
+                YtPlayerApi.setVideoId(attrs.src);
             }
         };
     }]);
@@ -13,7 +15,7 @@ angular.module('freebase.api',[])
         return {
             restrict:'A',
             link:function (scope, element) {
-                console.log('yo');
-            }
+		// something here
+           }
         };
     }]);
