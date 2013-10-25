@@ -4,7 +4,14 @@ angular.module('youtube.api.directives',[])
             restrict:'E',
             link:function (scope, element,attrs) {
                 YtPlayerApi.setPlayerId(attrs.id);
-                YtPlayerApi.setPlayerVars(attrs.autoplay,attrs.controls);
+		player_vars={};
+		allowed_vars=["autoplay","controls","html5"];
+		for (var idx in allowed_vars) {
+			if (allowed_vars[idx] in attrs) {
+				player_vars[allowed_vars[idx]]=attrs[allowed_vars[idx]];
+			}
+		}
+                YtPlayerApi.setPlayerVars(player_vars);
                 YtPlayerApi.setVideoId(attrs.src);
             }
         };

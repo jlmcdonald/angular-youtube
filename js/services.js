@@ -16,7 +16,8 @@ angular.module('youtube.api.services',[]).run(function() {
 		"playerId":null,
 		"playerObj":null,
 		"videoId":null,
-		"autoplay": false,
+		"autoplay": 0,
+		"html5": 1,
 		"controls": true,
 		"height":390,
 		"width":640,
@@ -27,14 +28,16 @@ angular.module('youtube.api.services',[]).run(function() {
 	    		this.width=width;
 	    		this.height=height;
 		},
-		setPlayerVars: function(autoplay,controls) {
-			this.autoplay=autoplay;
-			this.controls=controls;
+		setPlayerVars: function(player_vars) {
+			for (var attr in player_vars) {
+				this[attr]=player_vars[attr];
+			};
 		},
 		setVideoId: function(videoId) {
 			this.videoId=videoId;
 		},
 		loadPlayer:function () {
+			console.log
            		this.playerObj = new YT.Player(this.playerId, {
                 		height: this.height,
                 		width: this.width,
