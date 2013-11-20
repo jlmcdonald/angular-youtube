@@ -27,6 +27,7 @@ angular.module('youtube.api.services',[]).run(['$rootScope','$window',function($
 		"width":640,
 		"listType":null,
 		"list":null,
+
 		setPlayerId:function(elemId) {
             		this.playerId=elemId;
         },
@@ -42,18 +43,24 @@ angular.module('youtube.api.services',[]).run(['$rootScope','$window',function($
 		setVideoId: function(videoId) {
 			this.videoId=videoId;
 		},
-		loadPlayer:function () {
-				var playerVars={'autoplay':this.autoplay,'controls':this.controls};
-				var playerConfig={'height':this.height,'width':this.width,'playerVars':playerVars};
-				if (this.listType) {
-					playerConfig.playerVars.listType=this.listType;
-					playerConfig.playerVars.list=this.list;
-				}
-				else {
-					playerConfig.videoId=this.videoId;
-				}
-           		this.playerObj = new YT.Player(this.playerId, playerConfig);
-        	},
+		loadPlayer:function (callback) {
+			var playerVars={'autoplay':this.autoplay,'controls':this.controls};
+			var playerConfig={'height':this.height,'width':this.width,'playerVars':playerVars,'events':{}};
+			if (this.listType) {
+				playerConfig.playerVars.listType=this.listType;
+				playerConfig.playerVars.list=this.list;
+			}
+			else {
+				playerConfig.videoId=this.videoId;
+			}
+			if (callback) {
+				playerConfig.events.onReady=callback;
+			}
+           	this.playerObj = new YT.Player(this.playerId, playerConfig);
+        },
+        muteVideo: function() {
+        	this.playerObj.mute();
+        },
 		playVideo:function() {
 			this.playerObj.playVideo();
 		},

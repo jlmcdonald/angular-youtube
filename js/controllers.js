@@ -5,7 +5,11 @@
 function YTCtrl($scope,ytplayer,ytdataapi) {
   $scope.player=ytplayer;
   $scope.$on('apiReady',function () {
-      $scope.player.loadPlayer();
+      $scope.player.loadPlayer(function() {
+      	if ($scope.muted) {
+      		$scope.player.muteVideo();
+      	}
+      });
   });
 }
 

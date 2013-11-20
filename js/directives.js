@@ -11,9 +11,9 @@ angular.module('youtube.api.directives',[])
                         player_vars[allowed_vars[idx]]=attrs[allowed_vars[idx]];
                     }
                 }
-                console.log(attrs['listtype']);
                 YtPlayerApi.setPlayerVars(player_vars);
                 YtPlayerApi.setVideoId(attrs.src);
+                scope.muted=attrs.muted;
             }
         };
     }]);
