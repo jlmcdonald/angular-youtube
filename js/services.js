@@ -8,15 +8,15 @@ angular.module('youtube.api.services',[]).run(['$rootScope','$window',function($
     var firstScriptTag = document.getElementsByTagName('script')[0];
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
     $rootScope.$on('$viewContentLoaded',function() {
-    	if ($window.onYouTubeIframeAPIReady) {
+    	if (typeof YT !== 'undefined') {
     		$rootScope.$broadcast('apiReady');
     	}
     });
 }]).factory('youtubePlayer', ['$window','$rootScope', function ($window, $rootScope) {
-		$window.onYouTubeIframeAPIReady = function () {
-            $rootScope.$broadcast('apiReady');
-        };
-        var ytplayer = {
+	$window.onYouTubeIframeAPIReady = function () {
+		$rootScope.$broadcast('apiReady');
+	};
+	var ytplayer = {
 		"playerId":null,
 		"playerObj":null,
 		"videoId":null,
@@ -25,9 +25,11 @@ angular.module('youtube.api.services',[]).run(['$rootScope','$window',function($
 		"controls": true,
 		"height":390,
 		"width":640,
+		"listType":null,
+		"list":null,
 		setPlayerId:function(elemId) {
             		this.playerId=elemId;
-        	},
+        },
 		setDimensions:function(width,height) {
 	    		this.width=width;
 	    		this.height=height;
@@ -41,15 +43,16 @@ angular.module('youtube.api.services',[]).run(['$rootScope','$window',function($
 			this.videoId=videoId;
 		},
 		loadPlayer:function () {
-           		this.playerObj = new YT.Player(this.playerId, {
-                		height: this.height,
-                		width: this.width,
-				playerVars: {
-					'autoplay': this.autoplay,
-					'controls': this.controls
-				},
-                		videoId: this.videoId
-            		});
+				var playerVars={'autoplay':this.autoplay,'controls':this.controls};
+				var playerConfig={'height':this.height,'width':this.width,'playerVars':playerVars};
+				if (this.listType) {
+					playerConfig.playerVars.listType=this.listType;
+					playerConfig.playerVars.list=this.list;
+				}
+				else {
+					playerConfig.videoId=this.videoId;
+				}
+           		this.playerObj = new YT.Player(this.playerId, playerConfig);
         	},
 		playVideo:function() {
 			this.playerObj.playVideo();
