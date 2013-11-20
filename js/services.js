@@ -2,14 +2,18 @@
 
 /* Services */
 
-angular.module('youtube.api.services',[]).run(function() {
+angular.module('youtube.api.services',[]).run(['$rootScope','$window',function($rootScope,$window) {
     var tag = document.createElement('script');
     tag.src = "//www.youtube.com/iframe_api";
     var firstScriptTag = document.getElementsByTagName('script')[0];
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-    })
-    .factory('youtubePlayer', ['$window', '$rootScope', function ($window, $rootScope) {
-        $window.onYouTubeIframeAPIReady = function () {
+    $rootScope.$on('$viewContentLoaded',function() {
+    	if ($window.onYouTubeIframeAPIReady) {
+    		$rootScope.$broadcast('apiReady');
+    	}
+    });
+}]).factory('youtubePlayer', ['$window','$rootScope', function ($window, $rootScope) {
+		$window.onYouTubeIframeAPIReady = function () {
             $rootScope.$broadcast('apiReady');
         };
         var ytplayer = {
@@ -37,7 +41,6 @@ angular.module('youtube.api.services',[]).run(function() {
 			this.videoId=videoId;
 		},
 		loadPlayer:function () {
-			console.log
            		this.playerObj = new YT.Player(this.playerId, {
                 		height: this.height,
                 		width: this.width,
